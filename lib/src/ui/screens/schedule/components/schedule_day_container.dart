@@ -54,6 +54,8 @@ class ScheduleDayContainer extends StatelessWidget {
   }
 
   _changeColorText() {
+
+    if (isDatePassed) return Colors.grey.withAlpha(150);
     if (isSelected && isToday) return Colors.white;
     return Colors.black;
   }

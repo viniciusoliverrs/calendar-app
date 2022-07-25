@@ -33,6 +33,8 @@ class ScheduleBody extends StatelessWidget {
               isToday: (DateTime.now().day == date.day &&
                   DateTime.now().month == date.month &&
                   DateTime.now().year == date.year),
+              isDatePassed:
+                  date.isBefore(DateTime.now().add(const Duration(days: -1))),
             );
           }),
     );

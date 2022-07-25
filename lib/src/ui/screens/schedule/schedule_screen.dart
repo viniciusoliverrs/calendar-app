@@ -42,9 +42,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         ]),
         floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
         floatingActionButton: eventProvider.rangesDates.isNotEmpty
-            ? ScheduleFloatingnActionButton(
-                eventProvider: eventProvider,
-              )
+            ? ScheduleFloatingnActionButton(eventProvider: eventProvider)
             : null,
       );
     });
