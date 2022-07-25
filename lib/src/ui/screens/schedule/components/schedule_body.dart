@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:schedule_events_app/src/application/providers/schedule_provider.dart';
+import 'package:schedule_events_app/src/domain/entities/schedule_entitiy.dart';
 
 import 'schedule_day_container.dart';
 
 class ScheduleBody extends StatelessWidget {
-  final ScheduleProvider provider;
+  final ScheduleEntity schedule;
+  final List<DateTime> rangesDates;
+  final Function(DateTime date) addDateToRange;
   const ScheduleBody({
     Key? key,
-    required this.provider,
+    required this.schedule,
+    required this.rangesDates,
+    required this.addDateToRange,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var days = provider.schedule.getDaysInMonth();
+    var days = schedule.getDaysInMonth();
     return Expanded(
-      flex: 2,
       child: GridView.builder(
           itemCount: days.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -24,17 +27,12 @@ class ScheduleBody extends StatelessWidget {
           itemBuilder: (context, index) {
             final date = days[index];
             return ScheduleDayContainer(
-              isSelected: provider.rangesDates.contains(date),
+              isSelected: rangesDates.contains(date),
               date: date,
-              provider: provider,
+              addDateToRange: addDateToRange,
               isToday: (DateTime.now().day == date.day &&
                   DateTime.now().month == date.month &&
                   DateTime.now().year == date.year),
-              isDatePassed: false,
-              isMonthPassed: date.month < DateTime.now().month ||
-                  date.year < DateTime.now().year,
-              isPreviewNextMonth:
-                  false, //(date.month >= DateTime.now().month + 1 && date.year >= DateTime.now().year)
             );
           }),
     );

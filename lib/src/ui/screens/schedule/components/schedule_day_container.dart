@@ -1,30 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:schedule_events_app/src/application/providers/schedule_provider.dart';
-
 class ScheduleDayContainer extends StatelessWidget {
   const ScheduleDayContainer({
     Key? key,
     required this.date,
     required this.isSelected,
-    required this.provider,
+    required this.addDateToRange,
     required this.isToday,
-    required this.isDatePassed,
-    required this.isMonthPassed,
-    required this.isPreviewNextMonth,
+     this.isDatePassed=false,
   }) : super(key: key);
 
   final bool isSelected;
   final DateTime date;
-  final ScheduleProvider provider;
+  final Function(DateTime date) addDateToRange;
   final bool isDatePassed;
-  final bool isMonthPassed;
   final bool isToday;
-  final bool isPreviewNextMonth;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: isDatePassed ? null : () => provider.addDateToRange(date),
+      onTap: isDatePassed ? null : () => addDateToRange(date),
       child: Container(
         color: _changeBackgroundColor(),
         child: Padding(
@@ -60,7 +54,6 @@ class ScheduleDayContainer extends StatelessWidget {
   }
 
   _changeColorText() {
-    if (isMonthPassed || isPreviewNextMonth) return Colors.grey;
     if (isSelected && isToday) return Colors.white;
     return Colors.black;
   }

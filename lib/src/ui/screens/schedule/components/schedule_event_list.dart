@@ -11,17 +11,20 @@ class ScheduleEventList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 1,
-      child: ListView.builder(
-        itemCount: rangesDates.length,
-        itemBuilder: (context, index) {
-          final date = rangesDates[index];
-          return ListTile(
-            title: Text('$date'),
-          );
-        },
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ListView.builder(
+          
+          itemCount: rangesDates.length,
+          itemBuilder: (context, index) {
+            final date = rangesDates[index];
+            return ListTile(
+              title: Text('$date'),
+            );
+          },
+        ),
+      ],
     );
   }
 }

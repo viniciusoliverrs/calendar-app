@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:schedule_events_app/src/application/providers/event_provider.dart';
 import 'package:schedule_events_app/src/application/providers/schedule_provider.dart';
-import 'package:schedule_events_app/src/ui/screens/schedule/components/schedule_event_list.dart';
+import 'package:schedule_events_app/src/ui/screens/schedule/components/schedule_floating_action_button.dart';
 
 import 'components/schedule_app_bar.dart';
 import 'components/schedule_body.dart';
@@ -21,39 +22,28 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ScheduleProvider>(builder: (_, provider, __) {
+    return Consumer2<ScheduleProvider, EventProvider>(
+        builder: (_, scheduleProvider, eventProvider, __) {
       return Scaffold(
         appBar: ScheduleAppBar(
-          goBack: provider.showPreviousMonth,
-          goForward: provider.showNextMonth,
-          title: provider.schedule.toString(),
+          goBack: scheduleProvider.showPreviousMonth,
+          goForward: scheduleProvider.showNextMonth,
+          title: scheduleProvider.schedule.toString(),
         ),
         body: Column(children: [
-          ScheduleBody(provider: provider),
-          ScheduleEventList(rangesDates: provider.rangesDates),
+          ScheduleBody(
+            schedule: scheduleProvider.schedule,
+            rangesDates: eventProvider.rangesDates,
+            addDateToRange: eventProvider.addDateToRange,
+          ),
+          // ScheduleEventList(
+          //   rangesDates: eventProvider.rangesDates
+          // ),
         ]),
         floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-        floatingActionButton: provider.rangesDates.isNotEmpty
-            ? FloatingActionButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => const AlertDialog(
-                      title: Text('Are you sure you want to schedule?'),
-                      actions: [
-                        ElevatedButton(
-                          onPressed: null,
-                          child: Text('No'),
-                        ),
-                        ElevatedButton(
-                          onPressed: null,
-                          child: Text('Yes'),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                child: const Icon(Icons.add),
+        floatingActionButton: eventProvider.rangesDates.isNotEmpty
+            ? ScheduleFloatingnActionButton(
+                eventProvider: eventProvider,
               )
             : null,
       );
