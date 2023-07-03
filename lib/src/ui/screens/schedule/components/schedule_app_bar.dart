@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-class ScheduleAppBar extends StatelessWidget with PreferredSizeWidget {
+class ScheduleAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Function() goBack;
   final Function() goForward;
   final String title;
